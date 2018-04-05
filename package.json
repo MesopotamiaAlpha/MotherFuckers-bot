@@ -1,0 +1,15 @@
+{
+  "name": "MotherFuckers Bot",
+  "version": "1.0.0",
+  "description": "Bot sendo desenvolvido para o clan MotherFuckers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Djzefx",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.3.2"
+  }
+}

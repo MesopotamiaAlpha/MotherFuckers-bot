@@ -1,11 +1,9 @@
 {
   "token":"Token do bot",
-  "adminID" : "id do adimin",
   "passes" : 1 ,
   "prefix": "!",
   "debug": true,
   "show_warn": true,
   "send_mentions": true,
   "allow_user_games": true,
-  "ownerID": "id do dono"
 }

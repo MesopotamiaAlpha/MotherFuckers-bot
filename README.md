@@ -1,1 +1,1 @@
-MotherFuckers-bot
+bot

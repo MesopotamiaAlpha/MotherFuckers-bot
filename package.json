@@ -1,15 +1,18 @@
 {
-  "name": "MotherFuckers Bot",
+  "name": "bot_de_teste",
   "version": "1.0.0",
   "description": "Bot sendo desenvolvido para o clan MotherFuckers",
-  "main": "index.js",
+  "main": "mybot.js",
+  "keywords": [],
+  "author": "djzefx",
+  "license": "ISC",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "Djzefx",
-  "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.3.2"
+    "discord.js": "^11.3.2",
+    "node-gd": "^1.5.4",
+    "performance-now": "^2.1.0",
+    "pubg-api-redis": "^3.7.0"
   }
 }

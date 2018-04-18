@@ -14,7 +14,7 @@ exports.run = (client, message, args) => {
       },
       {
         name: "convite",
-        value: "O bot vai te entrega um convite temporario para o servidor *atenção* **__É TEMPORARIO__** , use com sabedoria."
+        value: "O bot vai te entrega um convite temporario para o servidor. *Atenção* **__É TEMPORARIO__** , use com sabedoria."
       },
       {
         name: "recarregar",
@@ -40,7 +40,7 @@ exports.run = (client, message, args) => {
     timestamp: new Date(),
     footer: {
       icon_url: client.user.avatarURL,
-      text: "!!Bot em desenvolvimento!! V 1.0.0"
+      text: "**Bot em desenvolvimento** Ve. 1.0.0"
     }
   }
 });

@@ -2,8 +2,11 @@ const fs = require("fs");
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
-//musica
 const yt = require('ytdl-core');
+var gd = require('node-gd');
+var bemvindo = config.bemvindo;
+
+
 let queue = {};
 
 
@@ -12,14 +15,12 @@ let queue = {};
 //****************************************************************
 client.on("ready", () => {
   // Este evento vai iniciar o bot, e logar, com sucesso.
-  console.log(`Iniciei normalmente, com ${client.users.size} usuarios, em ${client.channels.size} canais do ${client.guilds.size} guildas.`); 
-
-  //****adicionado*****
+  console.log(`Iniciei normalmente, com ${client.users.size} usuarios, em ${client.channels.size} canais do ${client.guilds.size} guildas.`);
   console.log(process.version);
   // Example of changing the bot's playing game to something useful. `client.user` is what the
   // docs refer to as the "ClientUser".
   console.log(client.user.username);
-  //depois de adicionar o bot de musica esta dando erro 
+  //depois de adicionar o bot de musica esta dando erro
   //client.user.setActivity(`${client.users.size} usuarios...`);
   client.user.setActivity('!ajuda para ajuda');
   client.user.setStatus('online');
@@ -81,25 +82,46 @@ client.on("message", message => {
   if (curLevel > userData.level) {
     // Level up!
     userData.level = curLevel;
-    message.reply(`Você subiu de nivel **${curLevel}**! Você pode mais ainda!`);
+    message.reply(`BIIIRRRLLL você subiu de nivel **${curLevel}**! olha o monstro saindo da jaula!`);
   }
 
   if (message.content.startsWith(prefix + "nivel")) {
-    message.reply(`Seu nivel atual ${userData.level}, com ${userData.points} pontos.`);
+
+    //nesta linha ele vai pegar a foto
+  gd.openFile('/home/jose/Desktop/motherfuckers.jpeg', function(err, img) {
+    if (err) {
+    throw err;
   }
+     var txtColor = img.colorAllocate(102, 153, 255);
+     var fontPath = '/home/jose/Desktop/bot_teste_motherfuckers/teste_fonte/stocky.ttf';
+     img.stringFT(txtColor, fontPath, 24, 0, 10, 60, `Nivel: ${userData.level}`);
+     img.stringFT(txtColor, fontPath, 24, 0, 10, 420, `Pontos: ${userData.points}`);
+     img.saveFile('/home/jose/Desktop/bot_teste_motherfuckers/newFile.jpeg', function(err) {
+     img.destroy();
+         if (err) {
+        throw err;
+    }
+  });
+});
+     message.reply(`Seu nivel atual jovem padawan é ${userData.level}, com ${userData.points} pontos. Que a força esteja com você.`, {
+     file: "./newFile.jpeg" 
+});
+  	}
   fs.writeFile("./util/pontos.json", JSON.stringify(points), (err) => {
     if (err) console.error(err)
-  });
+});
 
 });
 
 
-
-//***************************
-//entrada e saida de membros*
-//***************************
+//*****************************************************************************
+//entrada e saida de membros com bem vindo randomico linkado com o config.json*
+//*****************************************************************************
+function randomQuote() {
+	return bemvindo[Math.floor(Math.random() * bemvindo.length)];
+};
 client.on('guildMemberAdd', member => {
-  member.send(`Bem vindo ao MotherFuckers ${member} onde a zuera never ends, então puxe uma cadeira mas não esqueça de trazer a cerveja! `);
+  member.send(randomQuote());
   console.log(`${member.user.username} entrou no servidor`);
  });
 
@@ -111,15 +133,15 @@ const commands = {
   'play': (msg) => {
     if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Adicione alguma musica primeiro na fila com o comando ${config.prefix}adicionar`);
     if (!msg.guild.voiceConnection) return commands.join(msg).then(() => commands.play(msg));
-    if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Esta tocando');
+    if (queue[msg.guild.id].playing) return msg.channel.sendMessage('Ja estou cantando para você, veja se nao estou mutado...');
     let dispatcher;
     queue[msg.guild.id].playing = true;
 
     console.log(queue);
     (function play(song) {
       console.log(song);
-      if (song === undefined) return msg.channel.sendMessage('A lista esta vazia,parando de tocar...').then(() => {
-        
+      if (song === undefined) return msg.channel.sendMessage('A lista está vazia,vou ir deitar,quando quiser ouvir minha linda voz novamente me chame...').then(() => {
+
         //adicionado esta linha do status
         client.user.setActivity('!ajuda para ajuda');
         client.user.setStatus('online');
@@ -127,7 +149,7 @@ const commands = {
         queue[msg.guild.id].playing = false;
       });
       msg.channel.sendMessage(`Tocando: **${song.title}** pedido por: **${song.requester}**`);
-      
+
       //adicionado esta linha do status
       client.user.setActivity(`Tocando ${song.title}`);
       client.user.setStatus('dnd');
@@ -137,11 +159,11 @@ const commands = {
       let collector = msg.channel.createCollector(m => m);
       collector.on('message', m => {
         if (m.content.startsWith(config.prefix + 'pause')) {
-          msg.channel.sendMessage('pausado').then(() => {dispatcher.pause();});
+          msg.channel.sendMessage('Pausado').then(() => {dispatcher.pause();});
         } else if (m.content.startsWith(config.prefix + 'voltar')){
-          msg.channel.sendMessage('voltando a tocar').then(() => {dispatcher.resume();});
+          msg.channel.sendMessage('Voltando a tocar').then(() => {dispatcher.resume();});
         } else if (m.content.startsWith(config.prefix + 'passa')){
-          msg.channel.sendMessage('musica passada').then(() => {dispatcher.end();});
+          msg.channel.sendMessage('Musica passada').then(() => {dispatcher.end();});
         } else if (m.content.startsWith(config.prefix + 'volume+')){
           if (Math.round(dispatcher.volume*50) >= 100) return msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
           dispatcher.setVolume(Math.min((dispatcher.volume*50 + (2*(m.content.split('+').length-1)))/50,2));
@@ -151,7 +173,7 @@ const commands = {
           dispatcher.setVolume(Math.max((dispatcher.volume*50 - (2*(m.content.split('-').length-1)))/50,0));
           msg.channel.sendMessage(`Volume: ${Math.round(dispatcher.volume*50)}%`);
         } else if (m.content.startsWith(config.prefix + 'tempo')){
-          msg.channel.sendMessage(`Tempo: ${Math.floor(dispatcher.time / 60000)}:${Math.floor((dispatcher.time % 60000)/1000) <10 ? '0'+Math.floor((dispatcher.time % 60000)/1000) : Math.floor((dispatcher.time % 60000)/1000)}`);
+          msg.channel.sendMessage(`Tempo atual: ${Math.floor(dispatcher.time / 60000)}:${Math.floor((dispatcher.time % 60000)/1000) <10 ? '0'+Math.floor((dispatcher.time % 60000)/1000) : Math.floor((dispatcher.time % 60000)/1000)}`);
         }
       });
       dispatcher.on('end', () => {
@@ -187,7 +209,7 @@ const commands = {
     if (queue[msg.guild.id] === undefined) return msg.channel.sendMessage(`Adicione alguma musica para a lista primeiro com o comando ${config.prefix}adicionar`);
     let tosend = [];
     queue[msg.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Pedido por: ${song.requester}`);});
-    msg.channel.sendMessage(`__**Servidor: ${msg.guild.name} Lista de musica:**__ Tocando **${tosend.length}** Musicas na lista ${(tosend.length > 15 ? '*[Só mostra as proximas 15]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
+    msg.channel.sendMessage(`__**Servidor: ${msg.guild.name} \n Lista de musica:**__ Adicionado **${tosend.length}** musicas na lista ${(tosend.length > 15 ? '*[Só mostra as proximas 15]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
   },
   'ajudam': (msg) => {
     let tosend = ['```xl', config.prefix + 'entrar : "Faz o bot entrar no canal de musica"', config.prefix + 'adicionar : "Adiciona o link do Youtube a lista de musica"', config.prefix + 'lista : "Mostra a lista de musica,consegue mostar ate 15 musicas na lista."', config.prefix + 'play : "Toca a musica na lista somente se você ja estiver na sala"', '', 'os proximos comandos so funcionam quando o comando tocar estiver funcionando:'.toUpperCase(), config.prefix + 'pause : "Pausa a musica"', config.prefix + 'voltar : "Faz a musica voltar a tocar de onde parou"', config.prefix + 'passa : "Passa para a proxima musica"', config.prefix + 'tempo : "Mostra o tempo atual da musica."',  'volume+(+++) : "aumenta o volume em 2%/+"',  'volume-(---) : "diminui o volume em  2%/-"',  '```'];
@@ -206,24 +228,30 @@ client.on('message', msg => {
 });
 
 
-//teste para rebootar o bot
-// set message listener 
+//*****************************************************************************
+//Este processoreboota o bot, mas por algum motivo nao esta recarregando o bot*
+//*****************************************************************************
+// seta para aguardar o processo
 client.on('message', message => {
     switch(message.content.toUpperCase()) {
         case '?RESET':
             resetBot(message.channel);
             break;
 
-        // ... other commands
+        //outros comdandos
     }
 });
 
-// Turn bot off (destroy), then turn it back on
+// Desliga o bot (destroi), depois liga ele devolta
 function resetBot(channel) {
-    // send channel a message that you're resetting bot [optional]
+    // manda send channel a message that you're resetting bot [optional]
     channel.send('Resetando o main do bot....')
     .then(msg => client.destroy())
     .then(() => client.login(config.token));
 }
 
+
+//********************************************************
+//esta função pega o token da config e faz o login do bot*
+//********************************************************
 client.login(config.token);

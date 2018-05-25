@@ -1,0 +1,12 @@
+{
+  "token":"NDQxNTMxMTg5OTU0NzQwMjM0.DdIcWQ._RZ7lN7d0UrN5VwQxCdvXTr9_oQ",
+  "adminID" : "258717029027151873",
+  "passes" : 4 ,
+  "prefix": "!",
+  "debug": true,
+  "show_warn": true,
+  "send_mentions": true,
+  "allow_user_games": true,
+  "bemvindo":["Bem vindo ao MotherFuckers ${member.user.username} onde a zuera never ends, então puxe uma cadeira mas não esqueça de trazer a cerveja!", "Bem vindo 2", "Bem vindo 3", "Bem vindo 4", "Bem vindo 5", "Bem vindo 6"],
+  "ownerID": "258717029027151873"
+}

@@ -1,8 +1,8 @@
 exports.run = (client, message, args) => {
 
-	let channel = client.channels.get('397109089878016011');
-	channel = client.channels.find('name', 'Musicas S/🎤');
-	channel.leave()
-	.then(connection => console.log('Desconectado'))
-	.catch(console.error);
+	let channel = client.channels.get('421445329641013258');
+channel = client.channels.find('name', 'Geral');
+  channel.leave()
+  console.log('Bot desconectado do canal de audio'.red)
+  
 };

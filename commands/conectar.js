@@ -1,10 +1,13 @@
 exports.run = (client, message, args) => {
 
-  // Pega o canal pela ID
-  let channel = client.channels.get('397109089878016011');
-  // Ou pelo nome (less persistent)
-  channel = client.channels.find('name', 'Musicas S/🎤');
+  // Pegar o nome do canal pelo ID
+  let channel = client.channels.get('421445329641013258');
+
+  // ou pelo nome (menos persistente)
+  channel = client.channels.find('name', 'Geral');
   channel.join()
-  .then(connection => console.log('Conectado'))
+
+  //aqui estou tentando pegar o nome da sala e mostar no console,mas nao esta funcionando, esta aparecendo undefined
+  .then(connection => console.log(`Bot conectado com sucesso no canal de audio ${client.channels.get}`.green))
   .catch(console.error);
 };

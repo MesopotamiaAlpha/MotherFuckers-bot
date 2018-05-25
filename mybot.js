@@ -5,6 +5,7 @@ const config = require("./config.json");
 const yt = require('ytdl-core');
 var gd = require('node-gd');
 var bemvindo = config.bemvindo;
+var colors = require('colors');
 
 
 let queue = {};
@@ -15,13 +16,13 @@ let queue = {};
 //****************************************************************
 client.on("ready", () => {
   // Este evento vai iniciar o bot, e logar, com sucesso.
-  console.log(`Iniciei normalmente, com ${client.users.size} usuarios, em ${client.channels.size} canais do ${client.guilds.size} guildas.`);
-  console.log(process.version);
+  console.log(`Iniciei normalmente, com ${client.users.size} usuarios, em ${client.channels.size} canais do ${client.guilds.size} guildas.`.green);
+  console.log(process.version.green);
   // Exemplo de mudar o que o bot esta jogando por algo util. `client.user` é a referencia para "ClientUser".
 
-  console.log(client.user.username);
+  console.log(client.user.username.random);
   //depois de adicionar o bot de musica esta dando erro
-  //client.user.setActivity(`${client.users.size} usuarios...`);
+  //client.user.setActivity(`${client.users.size} usuarios...`.green);
   client.user.setActivity('!ajuda para ajuda');
   client.user.setStatus('online');
   /*Status do bot disponivel
@@ -88,15 +89,15 @@ client.on("message", message => {
   if (message.content.startsWith(prefix + "nivel")) {
 
     //nesta linha ele vai pegar a foto
-  gd.openFile('/home/raspserver/Área\ de\ Trabalho/Motherfuckers-bot_certo/motherfuckers.jpeg', function(err, img) {
+  gd.openFile('/home/raspserver/Área\ de\ Trabalho/MotherFuckers-bot_teste/motherfuckers.jpeg', function(err, img) {
     if (err) {
     throw err;
   }
      var txtColor = img.colorAllocate(102, 153, 255);
-     var fontPath = '/home/raspserver/Área\ de\ Trabalho/Motherfuckers-bot_certo/teste_fonte/stocky.ttf';
+     var fontPath = '/home/raspserver/Área\ de\ Trabalho/MotherFuckers-bot_teste/teste_fonte/stocky.ttf';
      img.stringFT(txtColor, fontPath, 24, 0, 10, 60, `Nivel: ${userData.level}`);
      img.stringFT(txtColor, fontPath, 24, 0, 10, 420, `Pontos: ${userData.points}`);
-     img.saveFile('/home/raspserver/Área\ de\ Trabalho/Motherfuckers-bot_certo/motherfuckers2.jpeg', function(err) {
+     img.saveFile('/home/raspserver/Área\ de\ Trabalho/MotherFuckers-bot_teste/motherfuckers2.jpeg', function(err) {
      img.destroy();
          if (err) {
         throw err;
@@ -106,7 +107,7 @@ client.on("message", message => {
      message.reply(`Seu nivel atual jovem padawan é ${userData.level}, com ${userData.points} pontos. Que a força esteja com você.`, {
      file: "./motherfuckers2.jpeg" 
 });
-    }
+  	}
   fs.writeFile("./util/pontos.json", JSON.stringify(points), (err) => {
     if (err) console.error(err)
 });
@@ -118,11 +119,11 @@ client.on("message", message => {
 //entrada e saida de membros com bem vindo randomico linkado com o config.json*
 //*****************************************************************************
 function randomQuote() {
-  return bemvindo[Math.floor(Math.random() * bemvindo.length)];
+	return bemvindo[Math.floor(Math.random() * bemvindo.length)];
 };
 client.on('guildMemberAdd', member => {
   member.send(randomQuote());
-  console.log(`${member.user.username} entrou no servidor`);
+  console.log(`${member.user.username} entrou no servidor`.green);
  });
 
 
@@ -190,13 +191,6 @@ const commands = {
   },
     //comando desconectar apresentando erro de crashar o bot e apagar os pontos
 
-    'dc': (msg) => {
-    return new Promise((resolve, reject) => {
-      const voiceChannel = msg.member.voiceChannel;
-      if (!voiceChannel || voiceChannel.type !== 'voice') return msg.reply('Nao pude conectar no canal de voz, verifique este erro com os adm...');
-      voiceChannel.leave().then(connection => resolve(connection)).catch(err => reject(err));
-    });
-   },
   'join': (msg) => {
     return new Promise((resolve, reject) => {
       const voiceChannel = msg.member.voiceChannel;
@@ -221,7 +215,7 @@ const commands = {
     msg.channel.sendMessage(`__**Servidor: ${msg.guild.name} \n Lista de musica:**__ Adicionado **${tosend.length}** musicas na lista ${(tosend.length > 15 ? '*[Só mostra as proximas 15]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
   },
   'ajudam': (msg) => {
-    let tosend = ['```xl', config.prefix + 'entrar : "Faz o bot entrar no canal de musica"', config.prefix + 'adicionar : "Adiciona o link do Youtube a lista de musica"', config.prefix + 'conectar : "Chama o bot para o seu canal"', config.prefix + 'desconectar : "Desconecta o bot do canal de musica"',config.prefix + 'lista : "Mostra a lista de musica,consegue mostar ate 15 musicas na lista."', config.prefix + 'play : "Toca a musica na lista somente se você ja estiver na sala"', '', 'os proximos comandos so funcionam quando o comando tocar estiver funcionando:'.toUpperCase(), config.prefix + 'pause : "Pausa a musica"', config.prefix + 'voltar : "Faz a musica voltar a tocar de onde parou"', config.prefix + 'passa : "Passa para a proxima musica"', config.prefix + 'tempo : "Mostra o tempo atual da musica."',  'volume+(+++) : "aumenta o volume em 2%/+"',  'volume-(---) : "diminui o volume em  2%/-"',  '```'];
+    let tosend = ['```xl', config.prefix + 'entrar : "Faz o bot entrar no canal de musica"', config.prefix + 'adicionar : "Adiciona o link do Youtube a lista de musica"', config.prefix + 'lista : "Mostra a lista de musica,consegue mostar ate 15 musicas na lista."', config.prefix + 'play : "Toca a musica na lista somente se você ja estiver na sala"', '', 'os proximos comandos so funcionam quando o comando tocar estiver funcionando:'.toUpperCase(), config.prefix + 'pause : "Pausa a musica"', config.prefix + 'voltar : "Faz a musica voltar a tocar de onde parou"', config.prefix + 'passa : "Passa para a proxima musica"', config.prefix + 'tempo : "Mostra o tempo atual da musica."',  'volume+(+++) : "aumenta o volume em 2%/+"',  'volume-(---) : "diminui o volume em  2%/-"',  '```'];
     msg.channel.sendMessage(tosend.join('\n'));
   },
   'reboot': (msg) => {
@@ -229,7 +223,6 @@ const commands = {
     .then(msg => client.destroy())
     .then(() => client.login(config.token));  }
 };
-
 
 client.on('message', msg => {
   if (!msg.content.startsWith(config.prefix)) return;

@@ -8,5 +8,5 @@
 - Foram implementados estes módulos mas alguns não estão funcionando pro completo
     - Rank de usuários mais ativos, quanto mais atividade mais pontuação ele ganha
     - Módulo de musica, o bot entra dentro da sala de musica e toca o vide/audio passado por link (Somente YouTube está funcional)
-    
-.
+    - Status personalizado no bot
+    - Comando para resetar o bot

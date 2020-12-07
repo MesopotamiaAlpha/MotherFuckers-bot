@@ -4,5 +4,8 @@
 
 <p>Para iniciar a usar o projeto use npm install para instalar todas as dependencias, caso apresente algum erro na instalação veja se é necessario instalara a biblioteca sudo apt-get install libgd-dev</p>
 
-<h2>Módulos implementados</h2>
-<p>Está incluso um módulo para rank de usuarios mais ativos</p>
+### Módulos implementados
+- Foram implementados estes módulos mas alguns não estão funcionando pro completo
+    - Rank de usuários mais ativos, quanto mais atividade mais pontuação ele ganha
+    - Módulo de musica, o bot entra dentro da sala de musica e toca o vide/audio passado por link (Somente YouTube está funcional)
+    
